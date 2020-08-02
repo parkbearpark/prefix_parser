@@ -20,6 +20,39 @@ impl<T> Annot<T> {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+enum TokenKind {
+    Number(u64),
+    Plus,
+    Minus,
+    Asterisk,
+    Slash,
+}
+
+type Token = Annot<TokenKind>;
+
+impl Token {
+    fn number(n: u64, loc: Loc) -> Self {
+        Self::new(TokenKind::Number(n), loc)
+    }
+
+    fn plus(loc: Loc) -> Self {
+        Self::new(TokenKind::Plus, loc)
+    }
+
+    fn minus(loc: Loc) -> Self {
+        Self::new(TokenKind::Minus, loc)
+    }
+
+    fn asterisk(loc: Loc) -> Self {
+        Self::new(TokenKind::Asterisk, loc)
+    }
+
+    fn slash(loc: Loc) -> Self {
+        Self::new(TokenKind::Slash, loc)
+    }
+}
+
 fn main() {
     println!("Hello, world!");
 }
