@@ -181,6 +181,24 @@ impl Ast {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+enum UniOpKind {
+    Plus,
+    Minus,
+}
+
+type UniOp = Annot<UniOpKind>;
+
+impl UniOp {
+    fn plus(loc: Loc) -> Self {
+        Self::new(UniOpKind::Plus, loc)
+    }
+
+    fn minus(loc: Loc) -> Self {
+        Self::new(UniOpKind::Minus, loc)
+    }
+}
+
 use std::io;
 
 fn prompt(s: &str) -> io::Result<()> {
