@@ -181,4 +181,14 @@ fn main() {
     }
 }
 
+#[test]
+fn test_lexer() {
+    assert_eq!(
+        lex("+ 1 2"),
+        Ok(vec![
+            Token::plus(Loc(0, 1)),
+            Token::number(1, Loc(2, 3)),
+            Token::number(2, Loc(4, 5)),
+        ])
+    )
 }
