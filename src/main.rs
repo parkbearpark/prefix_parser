@@ -53,6 +53,14 @@ impl Token {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+enum LexErrorKind {
+    InvalidChar(char),
+    Eof,
+}
+
+type LexError
+
 fn main() {
     println!("Hello, world!");
 }
