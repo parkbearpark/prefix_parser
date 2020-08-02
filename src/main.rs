@@ -151,6 +151,36 @@ fn consume_byte(input: &[u8], pos: usize, b: u8) -> Result<(u8, usize), LexError
     Ok((b, pos + 1))
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+enum AstKind {
+    Num(u64),
+    UniOp { op: UniOp, e: Box<Ast> },
+    BinOp { op: BinOp, l: Box<Ast>, r: Box<Ast> },
+}
+
+type Ast = Annot<AstKind>;
+
+impl Ast {
+    fn num(n: u64, loc: Loc) -> Self {
+        Self::new(AstKind::Num(n), loc)
+    }
+
+    fn uniop(op: UniOp, e: Ast, loc: Loc) -> Self {
+        Self::new(AstKind::UniOp { op, e: Box::new(e) }, loc)
+    }
+
+    fn binop(op: BinOp, l: Ast, r: Ast, loc: Loc) -> Self {
+        Self::new(
+            AstKind::BinOp {
+                op,
+                l: Box::new(l),
+                r: Box::new(r),
+            },
+            loc,
+        )
+    }
+}
+
 use std::io;
 
 fn prompt(s: &str) -> io::Result<()> {
