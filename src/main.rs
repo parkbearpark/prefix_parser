@@ -224,6 +224,24 @@ impl BinOp {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+enum ParseError {
+    UnexpectedToken(Token),
+    NotExpression(Token),
+    NotOperator(Token),
+    RedundantExpression(Token),
+    Eof,
+}
+
+fn parse(tokens: Vec<Token>) -> Result<Ast, ParseError> {
+    let mut tokens = tokens.into_iter().peekable();
+    let ret = parse_expr(&mut tokens)?;
+    match tokens.next() {
+        Some(tok) => Err(ParseError::RedundantExpression(tok)),
+        None => Ok(ret),
+    }
+}
+
 use std::io;
 
 fn prompt(s: &str) -> io::Result<()> {
